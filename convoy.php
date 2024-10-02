@@ -39,7 +39,7 @@ if(!defined("WHMCS")) {
                 [
                     "type" => "product",
                     "relid" => $product->id,
-                    "fieldname" => "Password | serverpass",
+                    "fieldname" => "serverpass | Password",
                     "fieldtype" => "password",
                     "description" => "",
                     "fieldoptions" => "",
@@ -54,13 +54,13 @@ if(!defined("WHMCS")) {
                 ]
             );
         }
-        $tblcustomfields = Capsule::table("tblcustomfields")->where("relid", $product->id)->where("fieldname", "Hostname | hostname")->count();
+        $tblcustomfields = Capsule::table("tblcustomfields")->where("relid", $product->id)->where("fieldname", "hostname | Hostname")->count();
         if($tblcustomfields <= 0) {
             Capsule::table("tblcustomfields")->insert(
                 [
                     "type" => "product",
                     "relid" => $product->id,
-                    "fieldname" => "Hostname | hostname",
+                    "fieldname" => "hostname | Hostname",
                     "fieldtype" => "text",
                     "description" => "",
                     "fieldoptions" => "",
