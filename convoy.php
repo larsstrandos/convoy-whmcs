@@ -6,6 +6,78 @@ if (!defined("WHMCS")) {
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 
+if(!defined("WHMCS")) {
+    die("This file cannot be accessed directly");
+} else {
+    $tblproducts = Capsule::table("tblproducts")->where("servertype", "convoy")->get();
+    $products = [];
+    foreach($tblproducts as $product) {
+        $tblcustomfields = Capsule::table("tblcustomfields")->where("relid", $product->id)->where("fieldname", "server_id")->count();
+        if($tblcustomfields <= 0) {
+            Capsule::table("tblcustomfields")->insert(
+                [
+                    "type" => "product",
+                    "relid" => $product->id,
+                    "fieldname" => "server_id",
+                    "fieldtype" => "text",
+                    "description" => "",
+                    "fieldoptions" => "",
+                    "regexpr" => "",
+                    "adminonly" => "on",
+                    "required" => "on",
+                    "showorder" => "",
+                    "showinvoice" => "",
+                    "sortorder" => 0,
+                    "created_at" => date("Y-m-d H:i:s"),
+                    "updated_at" => date("Y-m-d H:i:s")
+                ]
+            );
+        }
+        $tblcustomfields = Capsule::table("tblcustomfields")->where("relid", $product->id)->where("fieldname", "Password | serverpass")->count();
+        if($tblcustomfields <= 0) {
+            Capsule::table("tblcustomfields")->insert(
+                [
+                    "type" => "product",
+                    "relid" => $product->id,
+                    "fieldname" => "Password | serverpass",
+                    "fieldtype" => "password",
+                    "description" => "",
+                    "fieldoptions" => "",
+                    "regexpr" => "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,50}$",
+                    "adminonly" => "off",
+                    "required" => "on",
+                    "showorder" => "",
+                    "showinvoice" => "",
+                    "sortorder" => 0,
+                    "created_at" => date("Y-m-d H:i:s"),
+                    "updated_at" => date("Y-m-d H:i:s")
+                ]
+            );
+        }
+        $tblcustomfields = Capsule::table("tblcustomfields")->where("relid", $product->id)->where("fieldname", "Hostname | hostname")->count();
+        if($tblcustomfields <= 0) {
+            Capsule::table("tblcustomfields")->insert(
+                [
+                    "type" => "product",
+                    "relid" => $product->id,
+                    "fieldname" => "Hostname | hostname",
+                    "fieldtype" => "text",
+                    "description" => "",
+                    "fieldoptions" => "",
+                    "regexpr" => "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,50}$",
+                    "adminonly" => "off",
+                    "required" => "on",
+                    "showorder" => "",
+                    "showinvoice" => "",
+                    "sortorder" => 0,
+                    "created_at" => date("Y-m-d H:i:s"),
+                    "updated_at" => date("Y-m-d H:i:s")
+                ]
+            );
+        }
+    }
+}
+
 function convoy_GetFqdn(array $params) {
     $fqdn = $params['serverhostname'];
     if ($fqdn === '') throw new Exception('Could not find the panel\'s FQDN - did you configure server group for the product?');
