@@ -33,7 +33,7 @@ if(!defined("WHMCS")) {
                 ]
             );
         }
-        $tblcustomfields = Capsule::table("tblcustomfields")->where("relid", $product->id)->where("fieldname", "Password | serverpass")->count();
+        $tblcustomfields = Capsule::table("tblcustomfields")->where("relid", $product->id)->where("fieldname", "serverpass | Password")->count();
         if($tblcustomfields <= 0) {
             Capsule::table("tblcustomfields")->insert(
                 [
